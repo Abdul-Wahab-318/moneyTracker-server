@@ -1,8 +1,10 @@
 const mongoose = require("mongoose")
 
+const URI = "mongodb+srv://wahabmaliq:steel321@cluster0.kwevt.mongodb.net/moneyTracker?retryWrites=true&w=majority"
+
 const connectDB = async () => {
     await mongoose.connect(
-        'mongodb://localhost/moneyTracker' ,
+        URI ,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
