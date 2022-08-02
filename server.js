@@ -23,7 +23,10 @@ app.use(cors({
     origin : [ "http://localhost:3000" , "https://moneytracker-awm.netlify.app" ] ,
     credentials : true 
 }))
-
+app.use((req, res, next) => {
+    res.header({"Access-Control-Allow-Origin": "*"});
+    next();
+  }) 
 
 app.use("/user" , userRoute )
 
