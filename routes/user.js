@@ -86,4 +86,9 @@ router.post( "/logout" , auth , async ( req , res ) => {
 
 } )
 
+
+router.get("/hello" , async ( req ,res) => {
+    res.end("hello mate")
+})
+
 module.exports = router
