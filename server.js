@@ -20,7 +20,7 @@ app.use(cookieParser())
 
 // allows cross origin resource sharing
 app.use(cors({
-    origin : [ "http://localhost:3000" ] ,
+    origin : [ "http://localhost:3000" , "https://moneytracker-awm.netlify.app" ] ,
     credentials : true 
 }))
 
