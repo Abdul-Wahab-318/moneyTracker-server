@@ -12,32 +12,36 @@ router.post("/login" , async ( req , res) => {
         let { email , password } = req.body 
 
         if ( !email || !password ) // if email or password is missing
+        {
             res.status(400).json({ message : "Password or Email is missing", ok : false })
+        }
 
         let user = await userSchema.findOne({ email })
 
         if( !user )
         {
             res.status(404).json({ message : "User not found" , ok : false })
-            return
         }
 
         let comparePassword = await user.checkPassword(password)
 
         if ( !comparePassword )
-        res.status(401).json({ message : " Invalid credentials ", ok : false })
+        {
+            res.status(401).json({ message : " Invalid credentials ", ok : false })
+        }
 
         let token = user.getJWT()
         req.user = user 
         
+        //cookie expires after 30 days
         res.status(200)
-        .cookie( 'token' , token , { httpOnly : true , sameSite : 'none' , secure : true})
+        .cookie( 'token' , token , { httpOnly : true , sameSite : 'none' , secure : true , expires : new Date(Date.now() + 2600000000) })
         .json({ ok : true , user})
 
     }catch( err )
     {
         console.log(err)
-        res.status(400).end({error : err})
+        res.status(400).json({ ok : false , message : "logged in failed" })
     }
 })
 
@@ -48,7 +52,7 @@ router.post("/register" , async ( req , res ) => {
         let token = user.getJWT()
         req.user = user 
         //change secure to true to let browser store cookie but then it wont work for postman
-        res.status(200).cookie( 'token' , token , { httpOnly : true , sameSite : 'none' , secure : true})
+        res.status(200).cookie( 'token' , token , { httpOnly : true , sameSite : 'none' , secure : true , maxAge : 2600000000})
         .json( { user , ok : true  , message : "user registered"} )
     }
     catch( err )
@@ -80,7 +84,7 @@ router.post( "/logout" , auth , async ( req , res ) => {
 
     req.user = null 
     req.userID = null 
-    console.log("logged out")
+    console.log("logged out : " , req.cookies)
     res.clearCookie("token")
     res.status(200).json({ message : "logged out" , ok : true } )
 
