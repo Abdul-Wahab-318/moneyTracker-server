@@ -84,19 +84,11 @@ router.post( "/logout" , auth , async ( req , res ) => {
 
     req.user = null 
     req.userID = null 
-    console.log("inside log out : " , req.cookies)
-    /*res.clearCookie("token" ,
-    { domain : "money-tracker-app-server.herokuapp.com", path : "/" , secure : true , sameSite : 'none'})*/
-    res.cookie("token" , "bruh" , { httpOnly : true , sameSite : 'none' , secure : true })
-    res.clearCookie("token")
-    console.log("logged out : " , req.cookies)
+
+    // clearCookie isnt working due to maxAge attribute , so instead i overwrite the contents of the cookie
+    res.cookie("token" , null , { httpOnly : true , sameSite : 'none' , secure : true })
     res.status(200).json({ message : "logged out" , ok : true } )
 
 } )
-
-
-router.get("/hello" , async ( req ,res) => {
-    res.end("hello mate")
-})
 
 module.exports = router
