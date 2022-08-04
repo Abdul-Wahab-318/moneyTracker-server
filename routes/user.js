@@ -85,8 +85,10 @@ router.post( "/logout" , auth , async ( req , res ) => {
     req.user = null 
     req.userID = null 
     console.log("inside log out : " , req.cookies)
-    res.clearCookie("token" ,
-    { domain : "money-tracker-app-server.herokuapp.com", path : "/" , secure : true , sameSite : 'none'})
+    /*res.clearCookie("token" ,
+    { domain : "money-tracker-app-server.herokuapp.com", path : "/" , secure : true , sameSite : 'none'})*/
+    res.cookie("token" , "bruh" , { httpOnly : true , sameSite : 'none' , secure : true })
+    res.clearCookie("token")
     console.log("logged out : " , req.cookies)
     res.status(200).json({ message : "logged out" , ok : true } )
 
