@@ -14,7 +14,6 @@ let auth = ( req , res , next ) => {
     try{
         let decoded = jwt.verify( token  , "bingChungus123*%#&" )
         req.userID = decoded._id
-        console.log("decoded : " , decoded )
         
     }catch( err )
     {
