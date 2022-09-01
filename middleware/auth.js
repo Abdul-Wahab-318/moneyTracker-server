@@ -19,6 +19,7 @@ let auth = ( req , res , next ) => {
     {
         console.log( "AUTHENTICATION ERROR : " , err.message)
         res.status(403).json({ ok : false , message : "authentication error"})
+        return 
     }
     
 
